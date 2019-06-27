@@ -12,12 +12,19 @@
       <div class="row">
         <div class="col-12">
           <div class="jumbotron my-4">
-            <div class="form-group">
-              <h1>RSS Reader</h1>
-              <input type="input" class="form-control" id="text" placeholder="Enter URL">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <h1>RSS Reader</h1>
+            <form id="rss-form">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Enter URL">
+              </div>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div id="rss-list"></div>
         </div>
       </div>
     </div>
