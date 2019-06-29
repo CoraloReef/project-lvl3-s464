@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
@@ -23,14 +24,14 @@ module.exports = {
       },
     ],
   },
-  externals: {
-    jquery: 'jQuery',
-    popper: 'Popper',
-    bootstrap: 'Bootstrap',
-  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      Bootstrap: 'bootstrap',
     }),
   ],
 };
