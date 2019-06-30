@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const renderRss = (rssData) => {
+const rssRender = (rssData) => {
   const id = _.uniqueId();
   const {
     link,
@@ -8,34 +8,47 @@ const renderRss = (rssData) => {
     itemDescription,
   } = rssData;
   return `
-      <div class="col-12 col-sm-4">
-        <div class="card mb-2">
-          <div class="card-body text-center">
-            <h5 class="card-title"><a href="${link}">${itemTitle}</a></h5>
-            <p><a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal${id}">Description</a></p>
-          </div>
+    <div class="col-12 col-sm-4">
+      <div class="card mb-2">
+        <div class="card-body text-center">
+          <h5 class="card-title"><a href="${link}">${itemTitle}</a></h5>
+          <p><a href="#" class="btn btn-secondary" data-toggle="modal" data-target="#modal${id}">Description</a></p>
         </div>
-        <div class="modal fade" id="modal${id}" tabindex="-1" role="dialog" aria-labelledby="modalWindow" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="modalWindowLabel${id}">
-                  ${itemTitle}
-                </h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                ${itemDescription}
-              </div>
+      </div>
+      <div class="modal fade" id="modal${id}" tabindex="-1" role="dialog" aria-labelledby="modalWindow" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalWindowLabel${id}">
+                ${itemTitle}
+              </h5>
+              <button class="close" type="button" data-dismiss="modal" aria-label="close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ${itemDescription}
             </div>
           </div>
         </div>
-      </div>`;
+      </div>
+    </div>`;
 };
 
-export default (rss) => {
+export const notifyRender = (notify) => {
+  const { text, type } = notify;
+  const blockNotify = document.querySelector('#notify');
+  blockNotify.innerHTML = `
+    <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+      ${text}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  `;
+};
+
+export const rssListRender = (rss) => {
   const rssDiv = document.querySelector('#rss-list');
-  rssDiv.innerHTML = rss.map(rssItems => rssItems.map(item => renderRss(item)).join(''));
+  rssDiv.innerHTML = rss.map(rssItems => rssItems.map(item => rssRender(item)).join(''));
 };
