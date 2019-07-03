@@ -50,5 +50,5 @@ export const notifyRender = (notify) => {
 
 export const rssListRender = (rss) => {
   const rssDiv = document.querySelector('#rss-list');
-  rssDiv.innerHTML = rss.map(rssItems => rssItems.map(item => rssRender(item)).join(''));
+  rssDiv.innerHTML = rss.map(rssItem => rssRender(rssItem)).join('');
 };

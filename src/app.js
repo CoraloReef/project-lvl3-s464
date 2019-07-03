@@ -1,17 +1,23 @@
 import WatchJS from 'melanke-watchjs';
 import isURL from 'validator/lib/isURL';
-import getRssData from './parser';
+import { updateRss, loadRss } from './parser';
 import { rssListRender, notifyRender } from './render';
 
 export default () => {
   const state = {
-    formStatus: 'init',
-    rssListUrl: [],
+    rssUrlList: [],
     rssDataList: [],
+    rssTitlesList: [],
+    formStatus: 'init',
     statusNotify: {
       text: '',
       type: '',
     },
+  };
+
+  const clearNotify = () => {
+    state.statusNotify.text = '';
+    state.statusNotify.type = '';
   };
 
   const input = document.querySelector('#rss-form input[type="text"]');
@@ -38,21 +44,29 @@ export default () => {
   const getFormStatus = () => formStatusActions[state.formStatus]();
 
   input.addEventListener('input', () => {
-    if (isURL(input.value) && !state.rssListUrl.includes(input.value)) {
-      state.formStatus = 'valid';
-    } else {
+    clearNotify();
+    if (!isURL(input.value)) {
       state.formStatus = 'invalid';
+    } else if (state.rssUrlList.includes(input.value)) {
+      state.formStatus = 'invalid';
+      state.statusNotify.text = 'This channel has already been added!';
+      state.statusNotify.type = 'warning';
+    } else {
+      state.formStatus = 'valid';
     }
   });
 
   button.addEventListener('click', (e) => {
     e.preventDefault();
-    state.rssListUrl = [...state.rssListUrl, input.value];
-    state.formStatus = 'init';
+    loadRss(input.value, state);
   });
 
   WatchJS.watch(state, 'formStatus', () => getFormStatus());
-  WatchJS.watch(state, 'rssListUrl', () => getRssData(state));
   WatchJS.watch(state, 'statusNotify', () => notifyRender(state.statusNotify));
+  WatchJS.watch(state, 'rssUrlList', () => {
+    if (state.rssUrlList.length === 1) {
+      updateRss(state);
+    }
+  });
   WatchJS.watch(state, 'rssDataList', () => rssListRender(state.rssDataList));
 };

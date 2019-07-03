@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios';
+import _ from 'lodash';
 
 const parse = (rssUrl) => {
   const parser = new DOMParser();
@@ -22,20 +23,45 @@ const parse = (rssUrl) => {
 
 const getProxyUrl = rssUrl => `https://cors-anywhere.herokuapp.com/${rssUrl}`;
 
-export default (state) => {
-  const proxyUrls = state.rssListUrl.map(getProxyUrl);
-  const promises = proxyUrls.map(axios.get);
-
-  state.statusNotify.text = 'Loading...';
-  state.statusNotify.type = 'info';
-
+export const updateRss = (state) => {
+  const proxyUrl = state.rssUrlList.map(getProxyUrl);
+  const promises = proxyUrl.map(axios.get);
   axios.all(promises)
-    .then((allRss) => {
-      const newFeeds = allRss.map(rss => parse(rss.data).rssData);
-      state.rssDataList = newFeeds;
+    .then((rss) => {
+      const rssData = rss.map(channel => parse(channel.data).rssData);
+      const newRssData = _.differenceBy(_.flatten(rssData), state.rssDataList, 'link');
+      state.rssDataList = [...newRssData, ...state.rssDataList];
     })
     .finally(() => {
-      state.statusNotify.text = 'Channel has been successfully added!';
+      setInterval(() => {
+        updateRss(state);
+      }, 5000);
+    })
+    .catch(() => {
+      state.statusNotify.text = 'Error updating channel!';
+      state.statusNotify.type = 'danger';
+    });
+};
+
+export const loadRss = (url, state) => {
+  state.statusNotify.text = 'Loading...';
+  state.statusNotify.type = 'info';
+  const proxyUrl = getProxyUrl(url);
+  axios.get(proxyUrl)
+    .then(({ data }) => {
+      state.formStatus = 'init';
+      const doc = parse(data);
+      const { title, rssData } = doc;
+      state.rssTitlesList = [title, ...state.rssTitlesList];
+      state.rssUrlList = [...state.rssUrlList, url];
+      state.rssDataList = [...rssData, ...state.rssDataList];
+    })
+    .finally(() => {
+      state.statusNotify.text = 'Channel has bin added!';
       state.statusNotify.type = 'success';
+    })
+    .catch(() => {
+      state.statusNotify.text = 'Error adding channel!';
+      state.statusNotify.type = 'danger';
     });
 };
