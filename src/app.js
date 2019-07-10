@@ -20,6 +20,7 @@ export default () => {
     state.statusNotify.type = '';
   };
 
+  const form = document.querySelector('#rss-form');
   const input = document.querySelector('#rss-form input[type="text"]');
   const button = document.querySelector('#rss-form button[type="submit"]');
 
@@ -56,7 +57,7 @@ export default () => {
     }
   });
 
-  button.addEventListener('click', (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
     loadRss(input.value, state);
   });

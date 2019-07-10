@@ -8,11 +8,8 @@ build:
 	rm -rf dist
 	NODE_ENV=production npm run webpack
 
-test:
-	npm test
-
 lint:
-	npm run eslint .
+	npm run eslint ./src
 
 publish:
 	npm publish --dry-run
