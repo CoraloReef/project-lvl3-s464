@@ -38,14 +38,12 @@ export const updateRss = (state) => {
       }, 5000);
     })
     .catch(() => {
-      state.statusNotify.text = 'Error updating channel!';
-      state.statusNotify.type = 'danger';
+      state.statusNotify = 'errorUpdate';
     });
 };
 
 export const loadRss = (url, state) => {
-  state.statusNotify.text = 'Loading...';
-  state.statusNotify.type = 'info';
+  state.statusNotify = 'loading';
   const proxyUrl = getProxyUrl(url);
   axios.get(proxyUrl)
     .then(({ data }) => {
@@ -57,11 +55,9 @@ export const loadRss = (url, state) => {
       state.rssDataList = [...rssData, ...state.rssDataList];
     })
     .finally(() => {
-      state.statusNotify.text = 'Channel has bin added!';
-      state.statusNotify.type = 'success';
+      state.statusNotify = 'added';
     })
     .catch(() => {
-      state.statusNotify.text = 'Error adding channel!';
-      state.statusNotify.type = 'danger';
+      state.statusNotify = 'errorAdd';
     });
 };
