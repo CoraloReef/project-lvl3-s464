@@ -1,6 +1,7 @@
 import WatchJS from 'melanke-watchjs';
 import isURL from 'validator/lib/isURL';
-import { updateRss, loadRss } from './parser';
+import i18next from 'i18next';
+import { updateRss, loadRss } from './loader';
 import { rssListRender, notifyRender } from './render';
 
 export default () => {
@@ -33,6 +34,40 @@ export default () => {
       input.classList.add('is-valid');
     },
   };
+
+  i18next.init({
+    lng: 'en',
+    resources: {
+      en: {
+        translation: {
+          init: {
+            type: 'info',
+            text: '',
+          },
+          loading: {
+            type: 'info',
+            text: 'Loading...',
+          },
+          added: {
+            type: 'success',
+            text: 'Channel has bin added!',
+          },
+          errorAdd: {
+            type: 'danger',
+            text: 'Error adding channel!',
+          },
+          errorUpdate: {
+            type: 'danger',
+            text: 'Error updating channel!',
+          },
+          warningAdded: {
+            type: 'warning',
+            text: 'This channel has already been added!',
+          },
+        },
+      },
+    },
+  });
 
   const getFormStatus = () => formStatusActions[state.formStatus]();
   const isFirstRssUrl = () => state.rssUrlList.length === 1;

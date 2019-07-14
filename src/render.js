@@ -37,56 +37,15 @@ const rssRender = (rssData) => {
 };
 
 export const notifyRender = (statusNotify) => {
-  let notifyType;
-  switch (statusNotify) {
-    case 'init':
-      notifyType = 'info';
-      break;
-    case 'loading':
-      notifyType = 'info';
-      break;
-    case 'added':
-      notifyType = 'success';
-      break;
-    case 'errorAdd':
-      notifyType = 'danger';
-      break;
-    case 'errorUpdate':
-      notifyType = 'danger';
-      break;
-    case 'warningAdded':
-      notifyType = 'warning';
-      break;
-    default:
-      notifyType = 'info';
-  }
-
-  i18next.init({
-    lng: 'en',
-    debug: true,
-    resources: {
-      en: {
-        translation: {
-          init: '',
-          loading: 'Loading...',
-          added: 'Channel has bin added!',
-          errorAdd: 'Error adding channel!',
-          errorUpdate: 'Error updating channel!',
-          warningAdded: 'This channel has already been added!',
-        },
-      },
-    },
-  }).then(() => {
-    const blockNotify = document.querySelector('#notify');
-    blockNotify.innerHTML = `
-      <div class="alert alert-${notifyType} alert-dismissible fade show" role="alert">
-        ${i18next.t(statusNotify)}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    `;
-  });
+  const blockNotify = document.querySelector('#notify');
+  blockNotify.innerHTML = `
+    <div class="alert alert-${i18next.t(`${statusNotify}.type`)} alert-dismissible fade show" role="alert">
+      ${i18next.t(`${statusNotify}.text`)}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  `;
 };
 
 export const rssListRender = (rss) => {
