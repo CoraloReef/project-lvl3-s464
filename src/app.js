@@ -1,6 +1,7 @@
 import WatchJS from 'melanke-watchjs';
 import isURL from 'validator/lib/isURL';
 import i18next from 'i18next';
+import translation from './translation';
 import { updateRss, loadRss } from './loader';
 import { rssListRender, notifyRender } from './render';
 
@@ -39,32 +40,7 @@ export default () => {
     lng: 'en',
     resources: {
       en: {
-        translation: {
-          init: {
-            type: 'info',
-            text: '',
-          },
-          loading: {
-            type: 'info',
-            text: 'Loading...',
-          },
-          added: {
-            type: 'success',
-            text: 'Channel has bin added!',
-          },
-          errorAdd: {
-            type: 'danger',
-            text: 'Error adding channel!',
-          },
-          errorUpdate: {
-            type: 'danger',
-            text: 'Error updating channel!',
-          },
-          warningAdded: {
-            type: 'warning',
-            text: 'This channel has already been added!',
-          },
-        },
+        translation,
       },
     },
   });
