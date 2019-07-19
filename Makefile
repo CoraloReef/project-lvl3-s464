@@ -9,7 +9,7 @@ build:
 	NODE_ENV=production npm run webpack
 
 lint:
-	npx run eslint .
+	npm run eslint .
 
 publish:
 	npm publish --dry-run
