@@ -36,11 +36,11 @@ const rssRender = (rssData) => {
     </div>`;
 };
 
-export const notifyRender = (statusNotify) => {
+export const notifyRender = (notifyStatus) => {
   const blockNotify = document.querySelector('#notify');
   blockNotify.innerHTML = `
-    <div class="alert alert-${i18next.t(`${statusNotify}.type`)} alert-dismissible fade show" role="alert">
-      ${i18next.t(`${statusNotify}.text`)}
+    <div class="alert alert-${i18next.t(`${notifyStatus}.type`)} alert-dismissible fade show" role="alert">
+      ${i18next.t(`${notifyStatus}.text`)}
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>

@@ -11,7 +11,7 @@ export default () => {
     rssDataList: [],
     rssTitlesList: [],
     formStatus: 'init',
-    statusNotify: 'init',
+    notifyStatus: 'init',
   };
 
   const form = document.querySelector('#rss-form');
@@ -53,7 +53,7 @@ export default () => {
       state.formStatus = 'invalid';
     } else if (state.rssUrlList.includes(input.value)) {
       state.formStatus = 'invalid';
-      state.statusNotify = 'warningAdded';
+      state.notifyStatus = 'warningAdded';
     } else {
       state.formStatus = 'valid';
     }
@@ -65,7 +65,7 @@ export default () => {
   });
 
   WatchJS.watch(state, 'formStatus', () => getFormStatus());
-  WatchJS.watch(state, 'statusNotify', () => notifyRender(state.statusNotify));
+  WatchJS.watch(state, 'notifyStatus', () => notifyRender(state.notifyStatus));
   WatchJS.watch(state, 'rssUrlList', () => {
     if (isFirstRssUrl()) {
       updateRss(state);

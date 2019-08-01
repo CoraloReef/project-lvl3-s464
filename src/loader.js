@@ -20,12 +20,12 @@ export const updateRss = (state) => {
       }, 5000);
     })
     .catch(() => {
-      state.statusNotify = 'errorUpdate';
+      state.notifyStatus = 'errorUpdate';
     });
 };
 
 export const loadRss = (url, state) => {
-  state.statusNotify = 'loading';
+  state.notifyStatus = 'loading';
   state.formStatus = 'init';
   const proxyUrl = getProxyUrl(url);
   axios.get(proxyUrl)
@@ -35,9 +35,9 @@ export const loadRss = (url, state) => {
       state.rssTitlesList = [title, ...state.rssTitlesList];
       state.rssUrlList = [...state.rssUrlList, url];
       state.rssDataList = [...rssData, ...state.rssDataList];
-      state.statusNotify = 'added';
+      state.notifyStatus = 'added';
     })
     .catch(() => {
-      state.statusNotify = 'errorAdd';
+      state.notifyStatus = 'errorAdd';
     });
 };
