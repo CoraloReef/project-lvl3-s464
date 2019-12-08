@@ -1,6 +1,7 @@
 import WatchJS from 'melanke-watchjs';
 import isURL from 'validator/lib/isURL';
 import i18next from 'i18next';
+
 import translation from './translation';
 import { updateRss, loadRss } from './loader';
 import { rssListRender, notifyRender } from './render';
