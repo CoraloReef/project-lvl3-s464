@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import axios from 'axios';
 import _ from 'lodash';
+
 import parse from './parser';
 
 const getProxyUrl = rssUrl => `https://cors-anywhere.herokuapp.com/${rssUrl}`;
