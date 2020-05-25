@@ -11,7 +11,4 @@ build:
 lint:
 	npm run eslint .
 
-publish:
-	npm publish --dry-run
-
 .PHONY: test
